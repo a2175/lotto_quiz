@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.lottery.repository.mybatis.LotteryParticipantMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into lottery_participant (lottery_number_id, phone_number, assigned, created_at)
+        values (#{lotteryNumberId}, #{phoneNumber}, #{assigned}, #{createdAt})
+    </insert>
+
+    <select id="findAll" resultType="LotteryParticipantDto">
+        select lottery_participant_id AS `id`, lottery_number_id, phone_number, assigned, created_at
+        from lottery_participant
+    </select>
+
+    <select id="findByPhoneNumber" resultType="LotteryParticipantDto">
+        select lottery_participant_id AS `id`, lottery_number_id, phone_number, assigned, created_at
+        from lottery_participant
+        where phone_number = #{phoneNumber}
+    </select>
+
+</mapper>

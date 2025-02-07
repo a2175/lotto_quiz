@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.lottery.repository.mybatis.LotteryNumberMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into lottery_number (numbers, rank, assigned)
+        values (#{numbers}, #{rank}, #{assigned})
+    </insert>
+
+    <select id="findAll" resultType="LotteryNumber">
+        select lottery_number_id AS `id`, assigned, rank, numbers
+        from lottery_number
+    </select>
+
+    <select id="findById" resultType="LotteryNumber">
+        select lottery_number_id AS `id`, assigned, rank, numbers
+        from lottery_number
+        where lottery_number_id = #{id}
+    </select>
+
+    <select id="findByRank" resultType="LotteryNumber">
+        select lottery_number_id AS `id`, assigned, rank, numbers
+        from lottery_number
+        where rank = #{rank}
+    </select>
+
+    <select id="selectUnassignedLotteryNumberForUpdate" resultType="LotteryNumber">
+        select lottery_number_id AS `id`, assigned, rank, numbers
+        from lottery_number
+        where assigned = false
+        order by lottery_number_id
+        limit 1 for update
+    </select>
+
+    <update id="setLotteryAssignedTrue">
+        update lottery_number
+        set assigned=true
+        where lottery_number_id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.lottery.repository.mybatis.PredefinedWinnerMapper">
+
+    <select id="findAll" resultType="PredefinedWinner">
+        select predefined_winner_id AS `id`, phone_number
+        from predefined_winner
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into predefined_winner (phone_number)
+        values (#{phoneNumber})
+    </insert>
+
+</mapper>
