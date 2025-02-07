@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @Setter
 public class LotteryParticipant {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lottery_participant_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lottery_number_id")
     private LotteryNumber lotteryNumber;
 
     private String phoneNumber;
