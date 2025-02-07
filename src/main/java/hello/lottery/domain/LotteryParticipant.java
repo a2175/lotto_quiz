@@ -24,5 +24,5 @@ public class LotteryParticipant {
 
     private String phoneNumber;
     private boolean assigned;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }
