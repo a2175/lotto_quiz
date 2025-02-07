@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -24,6 +25,37 @@ class LottoGeneratorTest {
     @Test
     public void 생성개수() {
         assertEquals(10000, lottoNumbers.size(), "생성개수는 10000개여야 한다.");
+    }
+
+    @Test
+    public void 자릿수() {
+        for (LotteryNumberDto lotteryNumberDto : lottoNumbers) {
+            assertEquals(6, lotteryNumberDto.getNumbers().size(), "로또 번호는 6자리 여야 한다.");
+        }
+    }
+
+    @Test
+    public void 당첨() {
+        for (LotteryNumberDto lotteryNumberDto : lottoNumbers) {
+            Set<Integer> numbers = lotteryNumberDto.getNumbers();
+            Set<Integer> baseNumbers = lottoGenerator.getFirstPrizeNumbers();
+            int matchCount = getMatchCount(numbers, baseNumbers);
+            if(lotteryNumberDto.getRank() == 1) {
+                assertEquals(6, matchCount, "1등 당첨자는 6자리가 동일해야 한다.");
+            }
+            else if(lotteryNumberDto.getRank() == 2) {
+                assertEquals(5, matchCount, "2등 당첨자는 5자리가 동일해야 한다.");
+            }
+            else if(lotteryNumberDto.getRank() == 3) {
+                assertEquals(4, matchCount, "3등 당첨자는 4자리가 동일해야 한다.");
+            }
+            else if(lotteryNumberDto.getRank() == 4) {
+                assertEquals(3, matchCount, "4등 당첨자는 3자리가 동일해야 한다.");
+            }
+            else {
+                assertTrue(matchCount >= 0 && matchCount <= 2, "당첨자가 아니면 2자리 이하로 동일해야 한다.");
+            }
+        }
     }
 
     @Test
@@ -69,5 +101,16 @@ class LottoGeneratorTest {
                 assertTrue(order >= 1000 && order <= 8000, "3등 당첨자는 1000 이상 8000 이하에 분포되어야 합니다.");
             }
         }
+    }
+
+    private int getMatchCount(Set<Integer> numbers, Set<Integer> baseNumbers) {
+        int matchCount = 0;
+        for (int num : numbers) {
+            if (baseNumbers.contains(num)) {
+                matchCount++;
+            }
+        }
+
+        return matchCount;
     }
 }
